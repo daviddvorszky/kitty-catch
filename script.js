@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let speed = 20;
     let highScore = localStorage.getItem('highScore') || 0;
     let currentScore = 0;
-    let objectSpawnInterval = 3000;
+    let minSpawnInterval = 2000; // Minimum spawn interval (2 seconds)
+    let maxSpawnInterval = 3000; // Maximum spawn interval (starts at 3 seconds)
+    let intervalDecreaseRate = 100; // Rate at which the max interval decreases
     let objectMoveSpeed = 20;
 
     // Start game
@@ -53,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 40);
 
         // Schedule next object spawn
-        let nextSpawnTime = Math.random() * (3000 - 2200) + 2200; // Random time between 2.2 and 3 seconds
+        maxSpawnInterval = Math.max(minSpawnInterval, maxSpawnInterval - intervalDecreaseRate);
+        let nextSpawnTime = Math.random() * (maxSpawnInterval - minSpawnInterval) + minSpawnInterval;
         setTimeout(createObject, nextSpawnTime);
     }
 
