@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const character = document.getElementById('character');
     const gameContainer = document.getElementById('gameContainer');
     let gameInterval;
+    let nextObjectSpawnTimer;
     let characterY = 0;
     let targetY = 0;
     let speed = 20;
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Schedule next object spawn
         maxSpawnInterval = Math.max(minSpawnInterval, maxSpawnInterval - intervalDecreaseRate);
         let nextSpawnTime = Math.random() * (maxSpawnInterval - minSpawnInterval) + minSpawnInterval;
-        setTimeout(createObject, nextSpawnTime);
+        nextObjectSpawnTimer = setTimeout(createObject, nextSpawnTime);
     }
 
     // Check for missed objects
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // End game
     function endGame() {
         clearInterval(gameInterval);
+        clearTimeout(nextObjectSpawnTimer);
         alert(`Game Over. Score: ${currentScore}. Highscore: ${highScore}`);
         currentScore = 0;
     }
