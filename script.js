@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Move character
     function moveCharacter() {
-        if (Math.abs(characterY - targetY) > speed) {
-            characterY += characterY < targetY ? speed : -speed;
+        let dy = Math.abs(characterY - targetY)
+        if (dy > 0) {
+            let my = Math.min(dy, speed); // Number of pixels to move the character
+            characterY += characterY < targetY ? my : -my;
             character.style.top = characterY + 'px';
         }
     }
