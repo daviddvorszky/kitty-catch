@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check for missed objects
     function checkForMissedObjects() {
         document.querySelectorAll('.object').forEach(object => {
-            if (object.offsetLeft < character.offsetWidth && !isCollision(character, object)) {
+            if (object.offsetLeft < 0 && !isCollision(character, object)) {
                 endGame();
             } else if (object.offsetLeft < character.offsetWidth && isCollision(character, object)) {
                 object.remove();
