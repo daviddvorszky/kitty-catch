@@ -28,3 +28,17 @@ body, html {
     background-color: red;
     border-radius: 50%;
 }
+
+#scorePanel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10; /* Ensures it's above the game elements */
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}
+
+#scorePanel div {
+    margin-bottom: 5px;
+}

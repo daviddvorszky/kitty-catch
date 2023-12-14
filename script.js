@@ -6,12 +6,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let characterY = 0;
     let targetY = 0;
     let speed = 20;
-    let highScore = localStorage.getItem('highScore') || 0;
     let currentScore = 0;
     let minSpawnInterval = 2000; // Minimum spawn interval (2 seconds)
     let maxSpawnInterval = 3000; // Maximum spawn interval (starts at 3 seconds)
     let intervalDecreaseRate = 100; // Rate at which the max interval decreases
     let objectMoveSpeed = 20;
+
+    const currentScoreEl = document.getElementById('currentScore');
+    const highScoreEl = document.getElementById('highScore');
+
+    let highScore = parseInt(localStorage.getItem('highScore')) || 0;
+    highScoreEl.textContent = highScore;
+
+    // Update score display
+    function updateScore() {
+        currentScore++;
+        currentScoreEl.textContent = currentScore;
+
+        if (currentScore > highScore) {
+            highScore = currentScore;
+            highScoreEl.textContent = highScore;
+            localStorage.setItem('highScore', highScore);
+        }
+    }
+
+    // Reset score
+    function resetScore() {
+        currentScore = 0;
+        currentScoreEl.textContent = currentScore;
+    }
 
     // Start game
     function startGame() {
@@ -69,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (object.offsetLeft < 0 && !isCollision(character, object)) {
                 endGame();
             } else if (object.offsetLeft < character.offsetWidth && isCollision(character, object)) {
-                object.remove();
                 updateScore();
+                object.remove();
             }
         });
     }
@@ -82,21 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return !(r1.top > r2.bottom || r1.bottom < r2.top);
     }
 
-    // Update score
-    function updateScore() {
-        currentScore++;
-        if (currentScore > highScore) {
-            highScore = currentScore;
-            localStorage.setItem('highScore', highScore);
-        }
-    }
-
     // End game
     function endGame() {
         clearInterval(gameInterval);
         clearTimeout(nextObjectSpawnTimer);
         alert(`Game Over. Score: ${currentScore}. Highscore: ${highScore}`);
-        currentScore = 0;
+        resetScore();
     }
 
     gameContainer.addEventListener('mousemove', onMouseMove);
